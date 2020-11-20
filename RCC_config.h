@@ -85,5 +85,24 @@ typedef enum
 {
  CSS_OFF , 
  CSS_ON 
-}Clock_SecurityState ;  
+}Clock_SecurityState ;
+typedef enum
+{
+ PLL_IP_X_1  ,
+ PLL_IP_X_2  ,
+ PLL_IP_X_3  ,
+ PLL_IP_X_4  ,
+ PLL_IP_X_5  ,
+ PLL_IP_X_6  ,
+ PLL_IP_X_7  ,
+ PLL_IP_X_8  ,
+ PLL_IP_X_9  ,
+ PLL_IP_X_10 ,
+ PLL_IP_X_11 ,
+ PLL_IP_X_12 ,
+ PLL_IP_X_13 ,
+ PLL_IP_X_14 ,
+ PLL_IP_X_15 ,
+ PLL_IP_X_16
+}PLL_MultibilFactor ;
 #endif // __RCC_CONFIG_H__

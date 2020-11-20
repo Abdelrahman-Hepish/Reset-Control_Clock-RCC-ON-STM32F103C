@@ -10,6 +10,6 @@
 #define __RCC_INTERFACING_H__
 #include "RCC_config.h"
 
-void RCC_voidInit (tPLL_State pll_state ,tSystem_MainCLK sys_clk ,Clock_SecurityState css_state  ) ; 
-void RCC_voidSetClockState (Bus bus,Peripheral peripheral,State state);       
+void RCC_voidInit (tPLL_State  ,tSystem_MainCLK ,Clock_SecurityState ,PLL_MultibilFactor ) ;
+void RCC_voidSetClockState (tRCC_Bus bus,tRCC_PeripheralControl peripheral,tPLL_State state);
 #endif // __RCC_INTERFACING_H__
