@@ -12,6 +12,8 @@
 #include "RCC_private.h"
 #include "RCC_config.h"
 
+static void RCC_voidResetReversed(tRCC_Bus bus);
+
 void RCC_voidInit (tPLL_State pll_state ,tSystem_MainCLK sys_clk ,Clock_SecurityState css_state ,PLL_MultibilFactor factor)
 {
 	switch(sys_clk)
@@ -27,7 +29,7 @@ void RCC_voidInit (tPLL_State pll_state ,tSystem_MainCLK sys_clk ,Clock_Security
 		  SET_REGISTER_PIN(RCC_CR,HSION,HIGH) ;
 		  SET_REGISTER_PIN(RCC_CFGR,SW_0,LOW) ;
 		  SET_REGISTER_PIN(RCC_CFGR,SW_1,LOW) ;
-		  while(READ_REGISTER_PIN(RCC_CR,HSERDY) == LOW ) ; // wait untill the HSI becomes ready
+		  while(READ_REGISTER_PIN(RCC_CR,HSIRDY) == LOW ) ; // wait untill the HSI becomes ready
 		  break ; // Break for HSE 
 		default : /* shoud not be here */
 		  break ; 
@@ -87,7 +89,7 @@ void RCC_voidInit (tPLL_State pll_state ,tSystem_MainCLK sys_clk ,Clock_Security
 		break ; 
 		case PLL_OFF : 
 		  SET_REGISTER_PIN(RCC_CR,PLLON,LOW) ;
-		  while(READ_REGISTER_PIN(RCC_CR,HSERDY) == HIGH ) ; // wait untill the PLL becomes LOW
+		  while(READ_REGISTER_PIN(RCC_CR,PLLRDY) == HIGH ) ; // wait untill the PLL becomes LOW
 		  break ; 
 		default : /* shoud not be here */
 		  break ; 
@@ -112,7 +114,7 @@ void RCC_voidSetPeripheralClockState (tRCC_Bus bus,tRCC_PeripheralControl periph
 						  case CRC      : SET_REGISTER_PIN(RCC_AHBENR,6,state)   ; break ;
 						  case FSMC     : SET_REGISTER_PIN(RCC_AHBENR,8,state)   ; break ;      
 						  case SDIO     : SET_REGISTER_PIN(RCC_AHBENR,10,state)  ; break ; 
-						  default /* should not be here */ break ; 
+						  default       :  /* should not be here */ break ;
 					  }
 		break ; // for RCC_AHB
 		case RCC_APB2 :
@@ -136,7 +138,7 @@ void RCC_voidSetPeripheralClockState (tRCC_Bus bus,tRCC_PeripheralControl periph
 						  case TIM9     : SET_REGISTER_PIN(RCC_APB2ENR,19,state)  ; break ;
 						  case TIM10    : SET_REGISTER_PIN(RCC_APB2ENR,20,state)  ; break ;      
 						  case TIM11    : SET_REGISTER_PIN(RCC_APB2ENR,21,state)  ; break ;
-						  default /* should not be here */ break ; 
+						  default       : /* should not be here */ break ;
 					   }
 		
 		break ; // RCC_APB2
@@ -166,14 +168,14 @@ void RCC_voidSetPeripheralClockState (tRCC_Bus bus,tRCC_PeripheralControl periph
                           case BKP    : SET_REGISTER_PIN(RCC_APB1ENR,27,state)  ; break ;
                           case PWR    : SET_REGISTER_PIN(RCC_APB1ENR,28,state)  ; break ;
                           case DAC    : SET_REGISTER_PIN(RCC_APB1ENR,29,state)  ; break ;
-						  default /* should not be here */ break ;
+                          default     : /* should not be here */ break ;
 					   }
 		break ; // RCC_APB1
-	default /* shoud not be herer */ 	
-	}		
+	default : /* shoud not be herer */   break ;
+	}
 }
 // i want thins funcion to be static 
-void RCC_voidResetReversed(RCC_Bus bus) 
+static void RCC_voidResetReversed(tRCC_Bus bus)
 {
 switch(bus)
 	{
